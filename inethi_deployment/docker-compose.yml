@@ -1,0 +1,61 @@
+version: '3'
+services:
+
+  wordpress:
+    image: wordpress:latest
+    container_name: inethi-monetization-wordpress
+    volumes:
+      - "${WORDPRESS_MOUNT}:/var/www/html"
+    environment:
+      - "WORDPRESS_DB_NAME=${WORDPRESS_DB_NAME}"
+      - "WORDPRESS_TABLE_PREFIX=${WORDPRESS_TABLE_PREFIX}"
+      - "WORDPRESS_DB_HOST=${WORDPRESS_DB_HOST}"
+      - "WORDPRESS_DB_USER=${WORDPRESS_DB_USER}"
+      - "WORDPRESS_DB_PASSWORD=${WORDPRESS_DB_PASSWORD}"
+    depends_on:
+      - mariadb
+    restart: always
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.wordpress.rule=Host(`${TRAEFIK_API_RULE_WORDPRESS}.${inethiDN}`)"
+      - "traefik.http.routers.wordpress.entrypoints=${TRAEFIK_ENTRYPOINT}"
+      - "traefik.http.routers.www.rule=Host(`www.${inethiDN}`)"
+      - "traefik.http.routers.www.entrypoints=${TRAEFIK_ENTRYPOINT}"
+
+
+  mariadb:
+    image: mariadb:latest
+    container_name: inethi-monetization-mariadb
+    volumes:
+      - wordpress_data:/var/lib/mysql
+      - ./uploads.ini:/usr/local/etc/php/conf.d/uploads.ini
+    environment:
+      - "MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}"
+      - "MYSQL_USER=${WORDPRESS_DB_USER}"
+      - "MYSQL_PASSWORD=${WORDPRESS_DB_PASSWORD}"
+      - "MYSQL_DATABASE=${WORDPRESS_DB_NAME}"
+    restart: always
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.mariadb.rule=Host(`${TRAEFIK_API_RULE_MARIADB}.${inethiDN}`)"
+      - "traefik.http.routers.mariadb.entrypoints=${TRAEFIK_ENTRYPOINT}"
+ 
+
+  adminer:
+    image: adminer
+    container_name: inethi-monetization-adminer
+    restart: always
+    links:
+      - mariadb
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.adminer.rule=Host(`${TRAEFIK_API_RULE_ADMINER}.${inethiDN}`)"
+      - "traefik.http.routers.adminer.entrypoints=${TRAEFIK_ENTRYPOINT}"
+     
+volumes:
+  wordpress_data:
+
+networks:
+  default:
+    external:
+      name: "${INETHI_NETWORK}"
