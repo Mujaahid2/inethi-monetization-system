@@ -1,6 +1,6 @@
 ## Description
 
-A WordPress site built for the community members of Ocean View and developed to work on the iNethi network. This system is intended to work with the local iNethi instance of AzuraCast, the digital radio system. The site is provides a platform for local artists to upload their music, local businesses to purchase Ad space with the Radio Token (RT) virtual currency and upload their adverts. 
+A WordPress site built for the community members of Ocean View and developed to work on the iNethi network. This system is intended to work with the local iNethi instance of AzuraCast, the digital radio system. The site provides a platform for local artists to upload their music, local businesses to purchase Ad space with the Radio Token (RT) virtual currency and upload their adverts. 
 
 ## Set up
 
