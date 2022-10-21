@@ -40,12 +40,12 @@ For Linux or macOS machines add run the command:
 sudo nano /etc/host
 ```
 Add the ip address of the server running the iNethi environment and the domain name of the service to the file seperated by a tab. For example:
-- <server ip> radio.inethilocal.net
+- (server ip addres) radio.inethilocal.net
 
 For Windows users open Notepad and run it as an administrator. 
 - Select File -> Open and search the for directory C:\Windows\System32\drivers\etc.
 - Select All Files in the File Explorer and open the hosts file.
 Add the ip address of the server running the iNethi environment and the domain name of the service to the file seperated by a tab. For example:
-- <server ip> radio.inethilocal.net
+- (server ip addres) radio.inethilocal.net
 
 To update the domain name edit the .env file and change the TRAEFIK_API_RULE_WORDPRESS.
